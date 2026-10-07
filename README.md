@@ -15,3 +15,13 @@ Website demo videos for Treadle, built with Remotion (1920x1080, 30 fps).
     npx remotion render ScreenshotDemo videos/treadle-screenshot-demo.mp4
 
 `npx remotion studio` opens the preview.
+
+## Serve
+
+Deployed to Railway as a static file server (Caddy, no build runtime) so the
+marketing site pulls each clip by URL instead of bundling it. The `Dockerfile`
+serves `videos/` and `public/` with CORS, Range support and a day-long media
+cache; `index.html` backs the health check. Pushing a re-render redeploys the
+host, so the URLs update automatically.
+
+    https://<railway-domain>/videos/treadle-clipboard-demo.mp4
