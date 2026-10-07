@@ -1,0 +1,32 @@
+# treadle-demos — static file server for the rendered demo videos.
+# No build runtime: Caddy serves /srv (videos/ + public/) as plain files on Railway,
+# so the marketing site can pull each clip by URL instead of bundling it.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+# Railway injects $PORT; 8080 is the local-docker fallback.
+:{$PORT:8080} {
+	root * /srv
+
+	# Let the site (and anyone) embed or fetch the clips cross-origin.
+	# Plain <video src> playback does not need this, but <canvas>/fetch() does,
+	# and it is harmless for public static media.
+	header Access-Control-Allow-Origin "*"
+	header Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+	header -Server
+
+	# Media is already compressed (H.264 / VP9) — no on-the-fly encode, and
+	# file_server honours Range requests natively so the browser can seek.
+	# Files are overwritten in place on re-render, so cache a day, not forever.
+	@media path /videos/* /public/*
+	header @media Cache-Control "public, max-age=86400"
+
+	# OPTIONS preflight -> 204, no body.
+	@preflight method OPTIONS
+	respond @preflight 204
+
+	file_server
+}
