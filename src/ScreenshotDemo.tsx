@@ -7,7 +7,7 @@ import { Video } from "@remotion/media";
 
 const FPS = 30;
 const INTRO = 84;       // branded intro
-const DEMO_LEN = 237;   // demo frames shown before the outro takes over
+export const DEMO_LEN = 237;   // demo frames shown before the outro takes over
 const OUTRO = 110;
 export const TOTAL_FRAMES = INTRO + DEMO_LEN + OUTRO;
 
@@ -293,7 +293,7 @@ const Connector: React.FC<{ t: number }> = ({ t }) => (
   </>
 );
 
-const Demo: React.FC = () => {
+export const Demo: React.FC = () => {
   const frame = useCurrentFrame();
   const t = frame / FPS;
   const mv = cam(t, macKeys);

@@ -6,10 +6,10 @@ import {
 import { Video } from "@remotion/media";
 import PAD_TOP from "./padA_top.json";
 
-const FPS = 30;
-const INTRO = 84;       // branded intro
-const DEMO_LEN = 588;   // demo frames shown before the outro takes over
-const OUTRO = 110;
+export const FPS = 30;
+export const INTRO = 84;       // branded intro
+export const DEMO_LEN = 588;   // demo frames shown before the outro takes over
+export const OUTRO = 110;
 export const TOTAL_FRAMES = INTRO + DEMO_LEN + OUTRO;
 
 // ---- palette ---------------------------------------------------------------
@@ -18,10 +18,10 @@ const KEY = "#1C1C21";
 const HAIR = "#2A2A32";
 const INK = "#f4f2ee";
 const MUTED = "#9a97a1";
-const BG = "#0C0C0E";
+export const BG = "#0C0C0E";
 
 // ---- font ------------------------------------------------------------------
-const useFonts = () => {
+export const useFonts = () => {
   const [handle] = React.useState(() => delayRender("fonts"));
   React.useEffect(() => {
     const faces = [600, 700].map(
@@ -101,7 +101,7 @@ const Keypad: React.FC<{ size: number; t: number; press: number }> = ({ size, t,
   );
 };
 
-const BrandCard: React.FC<{ t: number; url?: boolean; size: number; top: number }> = ({ t, url, size, top }) => {
+export const BrandCard: React.FC<{ t: number; url?: boolean; size: number; top: number }> = ({ t, url, size, top }) => {
   const tp = 1.05; // the amber key "press"
   const press = interpolate(t, [tp, tp + 0.15], [0, 1], C);
   const ring = (t - tp) / 0.8;
@@ -153,7 +153,7 @@ const BrandCard: React.FC<{ t: number; url?: boolean; size: number; top: number 
 };
 
 // slowly drifting field of faint keys behind everything
-const KeyField: React.FC<{ frame: number }> = ({ frame }) => {
+export const KeyField: React.FC<{ frame: number }> = ({ frame }) => {
   const cell = 120;
   const off = (frame * 0.35) % cell;
   const cols = 18, rows = 11;
@@ -181,7 +181,7 @@ const KeyField: React.FC<{ frame: number }> = ({ frame }) => {
 };
 
 // small persistent lockup: mark + wordmark
-const Lockup: React.FC = () => (
+export const Lockup: React.FC = () => (
   <div style={{ position: "absolute", left: 0, right: 0, bottom: 34, display: "flex", justifyContent: "center", alignItems: "center", gap: 14 }}>
     <Keypad size={46} t={9} press={0} />
     <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 32, color: INK, letterSpacing: "-0.01em" }}>Treadle</div>
@@ -323,7 +323,7 @@ const PadMasks: React.FC<{ frame: number }> = ({ frame }) => {
   );
 };
 
-const Demo: React.FC = () => {
+export const Demo: React.FC = () => {
   const frame = useCurrentFrame();
   const t = frame / FPS;
   const mv = cam(t, macKeys);
